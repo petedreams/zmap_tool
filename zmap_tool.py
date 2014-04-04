@@ -99,10 +99,9 @@ def header(file):
 
 def sort(list_dict,name):
     #並び替えて表示
-
     print "\n====================== "+name+"sort =====================\n"
-    for k,v in sorted(list_dict,key=lambda koujun: koujun[1], reverse=True):])
-    print k,v
+    for k,v in sorted(list_dict,key=lambda koujun:koujun[1], reverse=True):
+        print k,v
 
 if __name__ == '__main__':
     filename = sys.argv[1]
