@@ -100,8 +100,12 @@ def header(file):
 def sort(list_dict,name):
     #並び替えて表示
     print "\n====================== "+name+"sort =====================\n"
-    for k,v in sorted(list_dict,key=lambda koujun:koujun[1], reverse=True):
+    for k, v in sorted(list_dict.items(), key=lambda x:x[1], reverse=True):
         print k,v
+    print "\nsame host"
+    if name == "tcp host":
+        for k, v in sorted(host_tcp_cut.items(), key=lambda x:x[1], reverse=True):
+            print k+".*",v
 
 if __name__ == '__main__':
     filename = sys.argv[1]
@@ -114,6 +118,6 @@ if __name__ == '__main__':
         print filename[filename.rindex('/')+1:]
     else :
         print filename
-    
     sort(host_tcp,"tcp host")
+    
     sort(host_udp,"udp host")
