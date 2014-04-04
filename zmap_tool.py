@@ -6,12 +6,32 @@
 #pcapを読み込んで出力
 #使い方 ./zmap_tool.py *.pcap
 
+"""
+＜＜＜出力例＞＞＞
+All  4
+TCP  0
+UDP  4
+
+zmapudp2.pcap
+
+====================== tcp hostsort =====================
+
+
+====================== udp hostsort =====================
+
+133.34.143.188 4
+"""
+
 
 import os,sys,dpkt,socket,binascii,string,re, operator,socket,datetime,time
 
 #送信元アドレス毎パケット数
 host_tcp = {}
 host_udp = {}
+
+#↑の☓.☓.☓.＊のパケット数
+host_tcp_cut = {}
+host_udp_cut = {}
 
 #パケットカウント
 all_packet = 0
@@ -45,11 +65,21 @@ def header(file):
                 if tcp.flags!=2:#synフラグ
                     continue
                 if (ip.id,ip.off,tcp.win,ip.len)==(54321,0,65535,40):
-                    if host_tcp.get(src_addr)==None:
-                        host_tcp[src_addr] = 1
+                    src_addr_cut = src_addr[:src_addr.rindex(".")]
+                    if host_tcp_cut.get(src_addr_cut)==None:
+                        host_tcp_cut[src_addr_cut] = 1
+                        if host_tcp.get(src_addr)==None:
+                            host_tcp[src_addr] = 1
+                        else:
+                            host_tcp[src_addr] += 1
                     else:
-                        host_tcp[src_addr] += 1
+                        host_tcp_cut[src_addr_cut] += 1
+                        if host_tcp.get(src_addr)==None:
+                            host_tcp[src_addr] = 1
+                        else:
+                            host_tcp[src_addr] += 1
                     tcp_packet += 1
+
 
             elif type(ip.data) == dpkt.udp.UDP:
             #UDPの検知
@@ -71,19 +101,20 @@ def sort(list_dict,name):
     #並び替えて表示
 
     print "\n====================== "+name+"sort =====================\n"
-    for k,v in sorted(list_dict.items()):
-        print k,v
+    for k,v in sorted(list_dict,key=lambda koujun: koujun[1], reverse=True):])
+    print k,v
 
 if __name__ == '__main__':
     filename = sys.argv[1]
+    header(sys.argv[1])
+    print 'All ',all_packet
+    print 'TCP ',tcp_packet
+    print 'UDP ',udp_packet
+    print
     if "/" in filename:
         print filename[filename.rindex('/')+1:]
     else :
         print filename
-
-    header(sys.argv[1])
-    print 'All packet = ',all_packet
-    print 'TCP packet = ',tcp_packet
-    print 'UDP packet = ',udp_packet
+    
     sort(host_tcp,"tcp host")
     sort(host_udp,"udp host")
