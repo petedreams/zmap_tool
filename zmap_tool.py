@@ -102,10 +102,11 @@ def sort(list_dict,name):
     print "\n====================== "+name+"sort =====================\n"
     for k, v in sorted(list_dict.items(), key=lambda x:x[1], reverse=True):
         print k,v
-    print "\nsame host"
     if name == "tcp host":
+        print "\nsame host"
         for k, v in sorted(host_tcp_cut.items(), key=lambda x:x[1], reverse=True):
-            print k+".*",v
+            if v>1:
+                print k+".*",v
 
 if __name__ == '__main__':
     filename = sys.argv[1]
@@ -113,11 +114,12 @@ if __name__ == '__main__':
     print 'All ',all_packet
     print 'TCP ',tcp_packet
     print 'UDP ',udp_packet
+    print 'tcphost ',len(host_tcp)
+    print 'samehost ',len(host_tcp_cut)
     print
     if "/" in filename:
         print filename[filename.rindex('/')+1:]
     else :
         print filename
     sort(host_tcp,"tcp host")
-    
     sort(host_udp,"udp host")
