@@ -12,7 +12,7 @@ import os,sys,dpkt,socket,binascii,string,re, operator,socket,datetime,time
 #宛先ポート変更はコレ
 dstport = 53
 
-def header(file,filename):
+def header(file):
 #pcap読み込み
 
     global all_packet
@@ -37,14 +37,20 @@ def header(file,filename):
             #UDPの検知
                 udp = ip.data
                 if (ip.id,ip.off,ip.len,udp.dport) == (54321,0,57,dstport):
-                    outfile.writepkt(eth,ts)
+                    a
 
 if __name__ == '__main__':
     filename = sys.argv[1]
+    header(sys.argv[1])
+    print 'All ',all_packet
+    print 'TCP ',tcp_packet
+    print 'UDP ',udp_packet
+    print 'tcphost ',len(host_tcp)
+    print 'samehost ',len(host_tcp_cut)
+    print
     if "/" in filename:
-        infile =  filename[filename.rindex('/')+1:]
+        print filename[filename.rindex('/')+1:]
     else :
-        infile = filename
-    print "Reading",infile,"..."
-    outfile = dpkt.pcap.Writer(open('sorted_'+infile,'wb'))
-    header(filename,outfile)
+        print filename
+    sort(host_tcp,"tcp host")
+    sort(host_udp,"udp host")
