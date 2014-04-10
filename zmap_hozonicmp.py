@@ -33,8 +33,8 @@ def header(file,filename):
                 icmp = ip.data
                 if icmp.type == dpkt.icmp.ICMP_ECHO:
                     icmp_echo = icmp.data
-                if (ip.id,ip.off,ip.len,icmp_echo.seq) == (54321,0,40,0):
-                    outfile.writepkt(eth,ts)
+                    if (ip.id,ip.off,ip.len,icmp_echo.seq) == (54321,0,40,0):
+                        outfile.writepkt(eth,ts)
 
 if __name__ == '__main__':
     filename = sys.argv[1]
