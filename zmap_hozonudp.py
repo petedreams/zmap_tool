@@ -11,10 +11,10 @@ import os,sys,dpkt,socket,binascii,string,re, operator,socket,datetime,time
 
 #宛先ポート変更はコレ
 
-def header(file):
+def header(file,outfile):
 #pcap読み込み
 
-    f= open(file,outfile)
+    f= open(file)
     pcap = dpkt.pcap.Reader(f)
 
     for ts,buf in pcap:
