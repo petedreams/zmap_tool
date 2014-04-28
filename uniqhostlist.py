@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#20140423
-#uniq_host.py
-#pcapを読み込んでユニークホスト数を表示
-#使い方 ./uniqhost.py *.pcap
+#20140428
+#uniqhostlist.py
+#pcapごとにユニークホストを多い順で表示
+#使い方 ./uniqhostlist.py *.pcap > outfile
 
 
 import os,sys,dpkt,socket,binascii,string,re, operator,socket,datetime,time
@@ -26,7 +26,7 @@ def header(file):
             eth = dpkt.ethernet.Ethernet(buf)
         except:
             continue
-        
+
         if type(eth.data) == dpkt.ip.IP:
             ip = eth.data
             src_addr=socket.inet_ntoa(ip.src)
