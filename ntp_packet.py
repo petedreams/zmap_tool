@@ -36,7 +36,7 @@ def header(file):
                 except:
                     continue
                 id = binascii.hexlify(ntp.id)
-                print "flags = %s\nstratum = %s\ninterval = %s\nprecision = %s\ndelay = %s\ndispersion = %s\nid = %s\n" % (ntp.flags,ntp.stratum,ntp.interval,ntp.precision,ntp.delay,ntp.dispersion,id)
+                print "flags = %x\nstratum = %s\ninterval = %s\nprecision = %s\ndelay = %s\ndispersion = %s\nid = %s\n" % (ntp.flags,ntp.stratum,ntp.interval,ntp.precision,ntp.delay,ntp.dispersion,id)
                 
 if __name__ == '__main__':
     filename = sys.argv[1]
